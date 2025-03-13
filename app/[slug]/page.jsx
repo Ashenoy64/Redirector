@@ -1,6 +1,6 @@
 'use client';
 import { useRouter,useParams, permanentRedirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 
 export default function RedirectPage() {
@@ -23,7 +23,7 @@ export default function RedirectPage() {
             // router.push(data.url);
           });
         } else {
-          router.push("/");
+          router.push("/notFound");
         }
       });
     }
