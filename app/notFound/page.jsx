@@ -20,7 +20,7 @@ export default function NotFound() {
           </g>
         </svg>
         <h2 className="text-2xl font-bold text-red-600">Redirection Failed</h2>
-        <p className="mt-2 text-lg text-gray-700">Mail example.com.</p>
+        <p className="mt-2 text-lg text-gray-700">For Query Contact Support example.com.</p>
       </div>
     </div>
   );

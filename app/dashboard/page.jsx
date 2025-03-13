@@ -39,7 +39,7 @@ export default function Dashboard() {
                     <h1 className="text-2xl font-bold mb-4">📊 URL Dashboard</h1>
                     {urls.length === 0 && <p>No URLs found.</p>}
                     <div className="space-y-4">
-                        {urls.map((url) => (
+                        {urls.length>0 && urls.map((url) => (
                             <div key={url.id} className="p-4 border rounded-lg bg-white shadow-md">
                                 <p className="text-lg font-medium">{url.original_url}</p>
                                 <p className="text-gray-600">Short: <a href={`/${url.slug}`} className="text-blue-600">{url.slug}</a></p>
