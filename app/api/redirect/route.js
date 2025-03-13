@@ -10,8 +10,14 @@ export async function POST(request) {
     }
 
     const userAgent = request.headers.get("user-agent");
-    let parser = new UAParser();
-    const parsedUA = parser.setUA(userAgent).getResult();
+    let parsedUA;
+    try{
+        let parser = new UAParser();
+        parsedUA = parser.setUA(userAgent).getResult();
+    }
+    catch(e){ 
+        parsedUA = { device: { type: "Unknown" }, os: { name: "Unknown" }, browser: { name: "Unknown" } };
+    }
     const ipAddress = request.headers.get("x-forwarded-for") || request.socket.remoteAddress;
     const country = request.headers.get("x-vercel-ip-country") || "Unknown";
 
@@ -27,12 +33,6 @@ export async function POST(request) {
             browser: parsedUA.browser.name || "Unknown",
         },
     ]);
-
-    const response = NextResponse.redirect(urlEntry.original_url);
-    response.headers.set("Access-Control-Allow-Credentials", "true");
-    response.headers.set("Access-Control-Allow-Origin", "*"); // Allow any origin
-    response.headers.set("Access-Control-Allow-Methods", "GET,OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type");
-    return response;
+    return NextResponse.json({ url: urlEntry.original_url }, { status: 200 });
 
 }

@@ -1,18 +1,33 @@
+'use client';
+import { useRouter,useParams, permanentRedirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default async function RedirectPage({ params }) {
-  const { slug } =await params;
 
-  if (slug) {
-    fetch(`/api/redirect`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ slug }),
-    }).then((res) => {
-      if (res.ok) window.location.href = res.url;
-    });
-  }
+export default function RedirectPage() {
+  const router = useRouter();
+  const params = useParams();
+  const slug = params.slug; 
+ 
+  useEffect(  () => {
+    if (slug) {
+      fetch("/api/redirect", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug }),
+      }).then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            permanentRedirect(data.url);
+            // router.push(data.url);
+          });
+        } else {
+          router.push("/");
+        }
+      });
+    }
+  }, [router,slug]);
 
   return <div></div>;
 }
